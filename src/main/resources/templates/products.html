@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
+    <style>
+        .navigation-order {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-6 col-md-4">
+            <img src="logo/cafep.png" style="width:100%;"/>
+            <br/>
+            <form action="#"
+                  th:action="${product.getProductId()}==null ? '/saveproduct' : ('/updateproduct/'+${product.productId})"
+                  th:object="${product}" method="post">
+                <div class="form-group">
+                    <label for="product_name">Product Name:</label>
+                    <input type="text" class="form-control" id="product_name" th:field="*{productName}"/>
+                </div>
+                <div class="form-group">
+                    <label for="product_price">Price:</label>
+                    <input type="text" class="form-control" id="product_price" th:field="*{productPrice}"/>
+                </div>
+                <button type="submit" class="btn btn-default" id="btn_submit">Add New Product</button>
+            </form>
+            <br/>
+            <a href="/orders">Click here to go to Customer Order Management</a>
+        </div>
+        <div class="col-12 col-md-8">
+            <h1>Products</h1>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th style="text-align:center;">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="productss : ${products}">
+                    <td th:text="${productss.productName}"></td>
+                    <td th:text="${productss.productPrice}"></td>
+                    <td align="center" th:classappend="${product.getProductId()}==null ? disabled">
+                        <a th:href="'/delete/'+${productss.productId}" class="btn btn-danger eBtn"><b>Delete
+                            Product</b></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div th:replace="fragments/footer :: footer">...</div>
+</div>
+</body>
+</html>
